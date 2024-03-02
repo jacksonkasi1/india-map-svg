@@ -6,6 +6,8 @@ import {
   Marker,
 } from "react-simple-maps";
 import INDIA_TOPO_JSON from "./india.topo.json";
+import { MapMarkerIco } from "./assets/icons";
+import { CompanyInfoCard } from "./Components/Popver";
 
 const PROJECTION_CONFIG = {
   scale: 800, // Increased map size
@@ -13,15 +15,9 @@ const PROJECTION_CONFIG = {
 };
 
 const capitals = [
-  { name: "New Delhi", coordinates: [77.209, 28.6139] },
-  // Add more capital cities here with their coordinates
+  { name: "New Delhi", coordinates: [77.216721, 28.6448] },
+  { name: "Chennai", coordinates: [80.237617, 13.067439] },
 ];
-
-const geographyStyle = {
-  default: { outline: "none", fill: "#D0D5DD" }, // Updated map color
-  hover: { fill: "#ADDFFF", transition: "all 250ms", outline: "none" },
-  pressed: { outline: "none" },
-};
 
 function App() {
   const mapSizes = {
@@ -33,14 +29,13 @@ function App() {
   };
 
   return (
-    <div className="overflow-hidden border-white border">
+    <div className="overflow-hidden border border-white">
       <ComposableMap
         projectionConfig={PROJECTION_CONFIG}
         projection="geoMercator"
-        // Example setting size dynamically based on screen width
         width={mapSizes.lg.width} // Adjust based on state or props
         height={mapSizes.lg.height}
-        className="mx-auto" // Center map in its container
+        className="mx-auto"
       >
         <Geographies geography={INDIA_TOPO_JSON}>
           {({ geographies }) =>
@@ -48,7 +43,7 @@ function App() {
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                className="outline-none fill-current text-gray-300 hover:fill-light-blue-200 pressed:outline-none"
+                className="text-gray-300 outline-none fill-current hover:fill-light-blue-200 pressed:outline-none"
                 style={{
                   default: {
                     outline: "none",
@@ -57,7 +52,7 @@ function App() {
                     strokeWidth: 0.5,
                   }, // Added white border
                   hover: {
-                    fill: "#fff",
+                    fill: "#e1e5eb",
                     transition: "all 250ms",
                     outline: "none",
                   },
@@ -69,23 +64,17 @@ function App() {
         </Geographies>
         {capitals.map(({ name, coordinates }) => (
           <Marker key={name} coordinates={coordinates}>
-            <circle r={6} fill="#F00" stroke="#fff" strokeWidth={1.5} />{" "}
-            {/* Smaller circle */}
-            <text
-              textAnchor="middle"
-              y={-10}
-              style={{
-                fontFamily: "system-ui",
-                fill: "#5D5A6D",
-                fontSize: "10px",
-              }}
-            >
-              {name}
-            </text>{" "}
-            {/* Smaller text */}
+            <MapMarkerIco />
           </Marker>
         ))}
       </ComposableMap>
+      <CompanyInfoCard
+        companyName="Credence Tec"
+        location="Chennai"
+        logoUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/d296624b1586dc250bcbaf6bfec9012c1037531e4627ac621f674d444639ebfd?apiKey=8aaf7451d26f4ce2af1c60a3edd4feea&"
+        ribbonImgUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/5557d38ceabda33aae8c1158e777000c27c526c6c316a3b0f1b5d624567cc3e5?apiKey=8aaf7451d26f4ce2af1c60a3edd4feea&"
+      />
+      <br />
     </div>
   );
 }
