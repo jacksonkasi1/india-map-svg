@@ -1,6 +1,6 @@
 import * as React from "react"
 export const MapMarkerIco = (props) => (
-  <g transform="translate(-9.5)" className='cursor-pointer' >
+  <g transform="translate(-9.5)" className='cursor-pointer' {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={19}

@@ -7,7 +7,7 @@ import {
 } from "react-simple-maps";
 import INDIA_TOPO_JSON from "./india.topo.json";
 import { MapMarkerIco } from "./assets/icons";
-import { CompanyInfoCard } from "./Components/Popver";
+import { Tooltip } from "react-tooltip";
 
 const PROJECTION_CONFIG = {
   scale: 800, // Increased map size
@@ -62,19 +62,28 @@ function App() {
             ))
           }
         </Geographies>
-        {capitals.map(({ name, coordinates }) => (
-          <Marker key={name} coordinates={coordinates}>
-            <MapMarkerIco />
+        {capitals.map(({ name, coordinates }, index) => (
+          <Marker key={index} coordinates={coordinates}>
+            <Tooltip
+              aria-haspopup="true"
+              id={`tooltip-${index}`}
+              effect="solid"
+            >
+              <div className=" flex flex-col items-center text-xs text-center bg-white rounded-lg shadow-md p-2 max-w-[113px]">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd296624b1586dc250bcbaf6bfec9012c1037531e4627ac621f674d444639ebfd?apiKey=8aaf7451d26f4ce2af1c60a3edd4feea&"
+                  alt="Logo"
+                  className="w-5 aspect-square"
+                />
+                <strong>Credence Tec</strong>
+
+                <span>{name}</span>
+              </div>
+            </Tooltip>
+            <MapMarkerIco data-tip data-for={`tooltip-${index}`} />
           </Marker>
         ))}
       </ComposableMap>
-      <CompanyInfoCard
-        companyName="Credence Tec"
-        location="Chennai"
-        logoUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/d296624b1586dc250bcbaf6bfec9012c1037531e4627ac621f674d444639ebfd?apiKey=8aaf7451d26f4ce2af1c60a3edd4feea&"
-        ribbonImgUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/5557d38ceabda33aae8c1158e777000c27c526c6c316a3b0f1b5d624567cc3e5?apiKey=8aaf7451d26f4ce2af1c60a3edd4feea&"
-      />
-      <br />
     </div>
   );
 }
