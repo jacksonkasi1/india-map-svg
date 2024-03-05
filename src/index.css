@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.tooltip-container .tooltip {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 0.5rem;
+  background-color: white;
+}

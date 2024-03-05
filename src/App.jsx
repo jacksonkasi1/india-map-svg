@@ -6,8 +6,11 @@ import {
   Marker,
 } from "react-simple-maps";
 import INDIA_TOPO_JSON from "./india.topo.json";
+
 import { MapMarkerIco } from "./assets/icons";
 import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+
 
 const PROJECTION_CONFIG = {
   scale: 800, // Increased map size
@@ -25,17 +28,19 @@ function App() {
     md: { width: 600, height: 900 },
     lg: { width: 800, height: 1200 },
     xl: { width: 1000, height: 1500 },
-    "2xl": { width: 1200, height: 1800 },
+    xll: { width: 1200, height: 1800 },
   };
 
   return (
-    <div className="overflow-hidden border border-white">
+    <div>
+      <div className="tooltip-container">
+        <Tooltip id="tooltip" className="tooltip" />
+      </div>
+
       <ComposableMap
         projectionConfig={PROJECTION_CONFIG}
         projection="geoMercator"
-        width={mapSizes.lg.width} // Adjust based on state or props
-        height={mapSizes.lg.height}
-        className="mx-auto"
+        className="-mt-[170px]"
       >
         <Geographies geography={INDIA_TOPO_JSON}>
           {({ geographies }) =>
@@ -62,25 +67,21 @@ function App() {
             ))
           }
         </Geographies>
+
         {capitals.map(({ name, coordinates }, index) => (
           <Marker key={index} coordinates={coordinates}>
-            <Tooltip
-              aria-haspopup="true"
-              id={`tooltip-${index}`}
-              effect="solid"
-            >
-              <div className=" flex flex-col items-center text-xs text-center bg-white rounded-lg shadow-md p-2 max-w-[113px]">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd296624b1586dc250bcbaf6bfec9012c1037531e4627ac621f674d444639ebfd?apiKey=8aaf7451d26f4ce2af1c60a3edd4feea&"
-                  alt="Logo"
-                  className="w-5 aspect-square"
-                />
-                <strong>Credence Tec</strong>
-
-                <span>{name}</span>
+            <MapMarkerIco
+              data-tooltip-id="tooltip"
+              data-tooltip-html={`
+              <div>
+                <header style="display: flex; flex-direction: column; align-items: center">
+                  <img loading="lazy" src="https://hatscripts.github.io/circle-flags/flags/in.svg" alt="logo" style="height: 30px; width: 30px; object-fit: contain; border-radius: 50%;">
+                  <h3 style="width: 100%; margin-top: 0.5rem; font-weight: 600; color: #334155;">Credence Tec</h3>
+                  <p style="margin-top: 0.25rem; color: #71717a;">${name}</p>
+                </header>
               </div>
-            </Tooltip>
-            <MapMarkerIco data-tip data-for={`tooltip-${index}`} />
+              `}
+            />
           </Marker>
         ))}
       </ComposableMap>
